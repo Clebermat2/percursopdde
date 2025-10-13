@@ -165,6 +165,7 @@
 
     <div class="container">
         <h1>Jogo 1: O Percurso do PDDE</h1>
+        <p style="text-align: center;">Bem-vindo! Avance por cada etapa do percurso respondendo a uma pergunta sorteada. A pergunta e as opções de resposta aparecerão na área "Desafio da Etapa" abaixo.</p>
         <div class="accessibility-controls">
             <button id="increase-font">Aumentar Fonte</button>
             <button id="decrease-font">Diminuir Fonte</button>
@@ -412,4 +413,41 @@
             questionTitle.textContent = `Desafio: ${stageName}`;
             questionText.textContent = currentQuestion.question;
 
-            currentQuestion.options.
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => selectAnswer(index, currentQuestion.correct, currentQuestion.feedback);
+                optionsContainer.appendChild(button);
+            });
+        }
+        
+        function selectAnswer(selectedIndex, correctIndex, feedbackText) {
+            Array.from(optionsContainer.children).forEach(button => {
+                button.disabled = true;
+            });
+
+            if (selectedIndex === correctIndex) {
+                feedback.style.color = 'var(--accent-color)';
+                feedback.textContent = feedbackText;
+                nextButton.style.display = 'block';
+            } else {
+                feedback.style.color = '#dc3545';
+                feedback.textContent = 'Resposta incorreta. ' + feedbackText;
+                nextButton.style.display = 'block';
+                 Array.from(optionsContainer.children)[correctIndex].style.backgroundColor = 'var(--accent-color)';
+                 Array.from(optionsContainer.children)[correctIndex].style.color = 'white';
+            }
+        }
+        
+        function showGameOver() {
+            questionArea.style.display = 'none';
+            steps.forEach(step => step.classList.add('completed'));
+            gameOver.innerHTML = '<h2>Parabéns!</h2><p>Você completou o Percurso do PDDE e revisou as etapas mais importantes do programa!</p>';
+        }
+
+        // Inicia o jogo assim que a página carrega
+        loadStage();
+    </script>
+
+</body>
+</html>
