@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo 1: O Percurso do PDDE</title>
+    <title>Jogo 1 (Atualizado): O Percurso do PDDE</title>
     <style>
         :root {
             --bg-color: #f0f8ff;
@@ -113,6 +113,7 @@
         #question-text {
             font-size: 1.1em;
             margin-bottom: 15px;
+            min-height: 50px;
         }
 
         .options button {
@@ -138,6 +139,7 @@
             margin-top: 15px;
             font-weight: bold;
             text-align: center;
+            min-height: 40px;
         }
 
         #next-button {
@@ -188,74 +190,174 @@
     </div>
 
     <script>
-        const questions = [
-            {
-                step: "Criação da UEx",
-                question: "Qual é o primeiro passo para criar uma Unidade Executora Própria (UEx)?",
-                options: [
-                    "Registrar o CNPJ na Receita Federal.",
-                    "Convocar uma Assembleia Geral com a comunidade escolar.",
-                    "Abrir uma conta bancária em nome da escola.",
-                    "Definir o presidente da UEx."
-                ],
-                correct: 1,
-                feedback: "Correto! O primeiro passo é a motivação e convocação de uma Assembleia Geral para discutir e aprovar o Estatuto. (Caderno 1, p. 16-17)"
-            },
-            {
-                step: "Adesão",
-                question: "A adesão e a atualização cadastral ao PDDE devem ser feitas em qual sistema?",
-                options: [
-                    "No site da prefeitura.",
-                    "Diretamente no banco.",
-                    "No sistema PDDEWeb.",
-                    "Enviando um e-mail para o FNDE."
-                ],
-                correct: 2,
-                feedback: "Exato! A adesão é feita pelo sistema PDDEWeb, disponível no site do FNDE. (Caderno 1, p. 29)"
-            },
-            {
-                step: "Planejamento",
-                question: "Quem deve participar da definição de prioridades para o uso dos recursos do PDDE, visando uma gestão democrática?",
-                options: [
-                    "Apenas o diretor e o tesoureiro da UEx.",
-                    "Apenas os professores.",
-                    "Toda a comunidade escolar (conselhos, pais, alunos, servidores, etc.).",
-                    "A Secretaria de Educação."
-                ],
-                correct: 2,
-                feedback: "Correto! A gestão democrática prevê que toda a comunidade escolar participe da decisão coletiva das prioridades. (Caderno 1, p. 34)"
-            },
-            {
-                step: "Execução",
-                question: "A compra de computadores e móveis para a escola deve ser feita com qual tipo de recurso do PDDE?",
-                options: [
-                    "Recurso de Custeio.",
-                    "Recurso de Capital.",
-                    "Qualquer um dos dois.",
-                    "Recurso de Manutenção."
-                ],
-                correct: 1,
-                feedback: "Isso mesmo! Materiais permanentes como equipamentos e mobiliário são adquiridos com recursos de CAPITAL. (Caderno 1, p. 41)"
-            },
-            {
-                step: "Prestação de Contas",
-                question: "Por quanto tempo os documentos da prestação de contas (notas fiscais, orçamentos, atas) devem ser arquivados na escola?",
-                options: [
-                    "Por 1 ano.",
-                    "Por 2 anos.",
-                    "Por, pelo menos, 5 anos.",
-                    "Até o recebimento do próximo recurso."
-                ],
-                correct: 2,
-                feedback: "Perfeito! A documentação deve ser arquivada por, no mínimo, 5 anos, à disposição dos órgãos de controle. (Caderno 1, p. 49)"
-            }
-        ];
+        const questionPool = {
+            "Criação da UEx": [
+                {
+                    question: "Qual é o primeiro passo para criar uma Unidade Executora Própria (UEx)?",
+                    options: ["Registrar o CNPJ na Receita Federal.", "Convocar uma Assembleia Geral com a comunidade escolar.", "Abrir uma conta bancária.", "Definir o presidente da UEx."],
+                    correct: 1,
+                    feedback: "Correto! O primeiro passo é a motivação e convocação de uma Assembleia Geral para discutir e aprovar o Estatuto. (Caderno 1, p. 16-17)"
+                },
+                {
+                    question: "Qual documento, aprovado na Assembleia Geral, rege o funcionamento da UEx?",
+                    options: ["O Projeto Político-Pedagógico (PPP).", "O Regimento Escolar.", "O Estatuto Social.", "A Ata de Posse da Diretoria."],
+                    correct: 2,
+                    feedback: "Isso mesmo! O Estatuto Social é o conjunto de regras que rege a vida e o funcionamento da Unidade Executora."
+                },
+                {
+                    question: "Após o registro em cartório, qual é o passo seguinte e obrigatório para a UEx existir legalmente?",
+                    options: ["A abertura da conta bancária.", "A eleição do Conselho Fiscal.", "A obtenção do CNPJ na Receita Federal.", "A comunicação à Secretaria de Educação."],
+                    correct: 2,
+                    feedback: "Exato! Sem o Cadastro Nacional da Pessoa Jurídica (CNPJ), a UEx não tem existência legal para receber recursos."
+                },
+                {
+                    question: "Qual órgão da UEx é responsável por examinar e aprovar as contas da diretoria?",
+                    options: ["A Assembleia Geral.", "O Conselho Deliberativo.", "O Conselho Fiscal.", "O Presidente."],
+                    correct: 2,
+                    feedback: "Correto! O Conselho Fiscal tem a função primordial de fiscalizar a gestão financeira da UEx, garantindo a transparência."
+                },
+                {
+                    question: "A diretoria de uma UEx é composta minimamente por quais cargos?",
+                    options: ["Presidente e Vice-Presidente.", "Presidente, Tesoureiro e Secretário-Geral.", "Diretor, Coordenador e Supervisor.", "Apenas por um Tesoureiro."],
+                    correct: 1,
+                    feedback: "Perfeito! A estrutura mínima da diretoria inclui Presidente, Tesoureiro e Secretário-Geral para garantir a boa administração."
+                }
+            ],
+            "Adesão": [
+                {
+                    question: "A adesão e a atualização cadastral ao PDDE devem ser feitas em qual sistema?",
+                    options: ["No site da prefeitura.", "Diretamente no banco.", "No sistema PDDEWeb.", "Enviando um e-mail para o FNDE."],
+                    correct: 2,
+                    feedback: "Exato! A adesão é feita pelo sistema PDDEWeb, disponível no site do FNDE. (Caderno 1, p. 29)"
+                },
+                {
+                    question: "Quem é o responsável por realizar a adesão ao PDDE no sistema PDDEWeb?",
+                    options: ["O diretor da escola.", "O presidente da UEx.", "O Secretário de Educação (Municipal ou Estadual).", "Qualquer membro da comunidade escolar."],
+                    correct: 2,
+                    feedback: "Isso mesmo! A adesão é de responsabilidade do gestor da Entidade Mantenedora, ou seja, o Secretário de Educação."
+                },
+                {
+                    question: "O que pode acontecer se a UEx de uma escola não mantiver seus dados cadastrais atualizados no PDDEWeb?",
+                    options: ["A escola recebe um bônus.", "Nada, a atualização é opcional.", "A UEx pode ficar impossibilitada de receber os recursos.", "O diretor da escola é penalizado."],
+                    correct: 2,
+                    feedback: "Atenção! A falta de atualização cadastral pode impedir o recebimento dos repasses financeiros do PDDE."
+                },
+                {
+                    question: "A adesão ao PDDE é obrigatória para todas as escolas públicas do Brasil?",
+                    options: ["Sim, todas são obrigadas a participar.", "Não, a adesão é voluntária e um pré-requisito para receber os recursos.", "Sim, mas apenas para escolas rurais.", "Não, apenas escolas com mais de 100 alunos precisam aderir."],
+                    correct: 1,
+                    feedback: "Correto! A adesão é voluntária. A escola que opta por não aderir, simplesmente não recebe os recursos do programa."
+                },
+                {
+                    question: "Qual dado da UEx é fundamental para que a Secretaria de Educação possa vincular a escola ao programa no PDDEWeb?",
+                    options: ["O nome do presidente da UEx.", "O número de alunos da escola.", "O CNPJ da Unidade Executora.", "O endereço de e-mail da escola."],
+                    correct: 2,
+                    feedback: "Exato! O CNPJ é o 'CPF' da Unidade Executora, essencial para identificá-la no sistema e realizar o repasse."
+                }
+            ],
+            "Planejamento": [
+                 {
+                    question: "Quem deve participar da definição de prioridades para o uso dos recursos do PDDE, visando uma gestão democrática?",
+                    options: ["Apenas o diretor e o tesoureiro da UEx.", "Apenas os professores.", "Toda a comunidade escolar (conselhos, pais, alunos, servidores, etc.).", "A Secretaria de Educação."],
+                    correct: 2,
+                    feedback: "Correto! A gestão democrática prevê que toda a comunidade escolar participe da decisão coletiva das prioridades. (Caderno 1, p. 34)"
+                },
+                {
+                    question: "O planejamento de gastos dos recursos do PDDE deve estar alinhado a qual importante documento da escola?",
+                    options: ["Ao calendário de provas.", "Ao Projeto Político-Pedagógico (PPP).", "Ao cardápio da merenda escolar.", "Às notas do IDEB."],
+                    correct: 1,
+                    feedback: "Perfeito! Os gastos devem refletir as metas e necessidades apontadas no PPP, que é o principal documento norteador da escola."
+                },
+                {
+                    question: "O que é fundamental fazer antes de começar a gastar o dinheiro para garantir a transparência do processo?",
+                    options: ["Publicar a decisão em um jornal local.", "Pedir autorização ao prefeito.", "Realizar uma reunião para definir prioridades e registrar tudo em ata.", "Guardar o dinheiro por 30 dias."],
+                    correct: 2,
+                    feedback: "Isso! A reunião com a comunidade e o registro em ata garantem que a decisão foi coletiva e transparente."
+                },
+                {
+                    question: "Ao planejar, é crucial diferenciar os recursos em duas categorias. Quais são elas?",
+                    options: ["Custeio e Capital.", "Urgente e Não Urgente.", "Manutenção e Inovação.", "Pedagógico e Administrativo."],
+                    correct: 0,
+                    feedback: "Exatamente! Separar o planejamento entre Custeio (bens de consumo) e Capital (bens permanentes) é obrigatório e essencial."
+                },
+                {
+                    question: "Qual a importância de realizar um diagnóstico das necessidades da escola antes de elaborar o plano de aplicação dos recursos?",
+                    options: ["Não é importante, o diretor já sabe do que precisa.", "Serve para cumprir uma exigência burocrática.", "Garante que o dinheiro será usado para resolver os problemas mais urgentes e relevantes da escola.", "Serve para aumentar o valor do repasse no ano seguinte."],
+                    correct: 2,
+                    feedback: "Correto! O diagnóstico ajuda a comunidade a ter uma visão clara dos problemas e a aplicar os recursos de forma mais eficiente e impactante."
+                }
+            ],
+            "Execução": [
+                {
+                    question: "A compra de computadores e móveis para a escola deve ser feita com qual tipo de recurso do PDDE?",
+                    options: ["Recurso de Custeio.", "Recurso de Capital.", "Qualquer um dos dois.", "Recurso de Manutenção."],
+                    correct: 1,
+                    feedback: "Isso mesmo! Materiais permanentes como equipamentos e mobiliário são adquiridos com recursos de CAPITAL. (Caderno 1, p. 41)"
+                },
+                {
+                    question: "Qual das seguintes despesas deve ser paga com recursos de CUSTEIO?",
+                    options: ["Construção de uma nova sala de aula.", "Aquisição de uma impressora.", "Compra de cartuchos de tinta, papel e canetas.", "Pagamento de uma conta de luz da escola."],
+                    correct: 2,
+                    feedback: "Correto! Custeio é para materiais de consumo e serviços. Tinta e papel são exemplos clássicos."
+                },
+                {
+                    question: "Antes de efetuar uma compra, qual prática é recomendada para garantir o bom uso do dinheiro público?",
+                    options: ["Escolher sempre o fornecedor mais perto da escola.", "Realizar uma pesquisa de preços com, no mínimo, três fornecedores.", "Comprar sempre da mesma loja de confiança.", "Pedir indicação de um político local."],
+                    correct: 1,
+                    feedback: "Exato! A pesquisa de preços é fundamental para garantir economia e isonomia no processo de compra."
+                },
+                {
+                    question: "É permitido utilizar os recursos do PDDE para pagar salários, gratificações ou bonificações para professores e funcionários?",
+                    options: ["Sim, desde que aprovado em assembleia.", "Apenas para funcionários terceirizados.", "Não, é uma das principais vedações (proibições) do programa.", "Sim, se a escola não tiver outra fonte de recurso."],
+                    correct: 2,
+                    feedback: "Isso mesmo! O pagamento de pessoal é estritamente proibido (vedado) com recursos do PDDE."
+                },
+                 {
+                    question: "Pequenos reparos na estrutura da escola, como consertar uma infiltração ou pintar uma parede, podem ser pagos com recursos do PDDE?",
+                    options: ["Não, o PDDE não cobre gastos com infraestrutura.", "Sim, esses são considerados pequenos serviços de manutenção e podem ser pagos com recursos de custeio.", "Apenas se o valor for muito baixo.", "Apenas se for uma escola rural."],
+                    correct: 1,
+                    feedback: "Correto! A manutenção física do prédio escolar para garantir a segurança e o bem-estar dos alunos é uma despesa permitida."
+                }
+            ],
+            "Prestação de Contas": [
+                {
+                    question: "Por quanto tempo os documentos da prestação de contas (notas fiscais, orçamentos, atas) devem ser arquivados na escola?",
+                    options: ["Por 1 ano.", "Por 2 anos.", "Por, pelo menos, 5 anos.", "Até o recebimento do próximo recurso."],
+                    correct: 2,
+                    feedback: "Perfeito! A documentação deve ser arquivada por, no mínimo, 5 anos, à disposição dos órgãos de controle. (Caderno 1, p. 49)"
+                },
+                 {
+                    question: "Qual é um dos principais documentos que compõem a pasta de prestação de contas?",
+                    options: ["A lista de presença dos alunos.", "O Demonstrativo da Execução da Receita e da Despesa.", "O cardápio da merenda.", "O boletim de notas da escola."],
+                    correct: 1,
+                    feedback: "Exato! O Demonstrativo da Execução da Receita e da Despesa é a peça central que resume toda a movimentação financeira."
+                },
+                {
+                    question: "O que acontece se a UEx não apresenta a prestação de contas ou se ela é reprovada?",
+                    options: ["A escola recebe mais dinheiro para corrigir os erros.", "O diretor é convidado para uma reunião no FNDE.", "A UEx fica inadimplente e pode ter os repasses futuros bloqueados.", "Nada, a prestação de contas é apenas uma formalidade."],
+                    correct: 2,
+                    feedback: "Atenção! A inadimplência impede a escola de receber novos recursos do PDDE e de outros programas federais."
+                },
+                {
+                    question: "Antes de ser enviada à Secretaria de Educação, a prestação de contas deve ser aprovada por quem?",
+                    options: ["Pela associação de pais e mestres.", "Pelo Conselho Fiscal da própria UEx.", "Pelo grêmio estudantil.", "Pelo prefeito da cidade."],
+                    correct: 1,
+                    feedback: "Correto! A primeira análise e aprovação devem ser feitas pelo Conselho Fiscal, que é o órgão fiscalizador interno da UEx."
+                },
+                {
+                    question: "Como a gestão escolar pode promover a transparência da prestação de contas para a comunidade?",
+                    options: ["Guardando os documentos em um cofre.", "Afixando um resumo dos gastos em um mural de fácil acesso e visibilidade na escola.", "Enviando os dados apenas para o FNDE.", "Comentando sobre os gastos apenas na sala dos professores."],
+                    correct: 1,
+                    feedback: "Isso mesmo! Dar publicidade aos gastos, por meio de murais e reuniões, é um princípio fundamental da gestão democrática e do controle social."
+                }
+            ]
+        };
 
-        let currentQuestionIndex = 0;
+        let currentStageIndex = 0;
         let fontSize = 16;
+        const stageOrder = ["Criação da UEx", "Adesão", "Planejamento", "Execução", "Prestação de Contas"];
 
         const body = document.body;
-        const gameBoard = document.getElementById('game-board');
         const steps = document.querySelectorAll('.step');
         const questionArea = document.getElementById('question-area');
         const questionTitle = document.getElementById('question-title');
@@ -280,64 +382,34 @@
         });
         
         nextButton.addEventListener('click', () => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                loadQuestion();
+            currentStageIndex++;
+            if (currentStageIndex < stageOrder.length) {
+                loadStage();
             } else {
                 showGameOver();
             }
         });
 
-        function loadQuestion() {
+        function loadStage() {
             feedback.textContent = '';
             nextButton.style.display = 'none';
             optionsContainer.innerHTML = '';
             
             steps.forEach((step, index) => {
                 step.classList.remove('active', 'completed');
-                if (index < currentQuestionIndex) {
+                if (index < currentStageIndex) {
                     step.classList.add('completed');
-                } else if (index === currentQuestionIndex) {
+                } else if (index === currentStageIndex) {
                     step.classList.add('active');
                 }
             });
 
-            const currentQuestion = questions[currentQuestionIndex];
-            questionTitle.textContent = `Desafio: ${currentQuestion.step}`;
+            const stageName = stageOrder[currentStageIndex];
+            const questionsForStage = questionPool[stageName];
+            const randomQuestionIndex = Math.floor(Math.random() * questionsForStage.length);
+            const currentQuestion = questionsForStage[randomQuestionIndex];
+            
+            questionTitle.textContent = `Desafio: ${stageName}`;
             questionText.textContent = currentQuestion.question;
 
-            currentQuestion.options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.textContent = option;
-                button.onclick = () => selectAnswer(index, currentQuestion.correct, currentQuestion.feedback);
-                optionsContainer.appendChild(button);
-            });
-        }
-        
-        function selectAnswer(selectedIndex, correctIndex, feedbackText) {
-            Array.from(optionsContainer.children).forEach(button => {
-                button.disabled = true;
-            });
-
-            if (selectedIndex === correctIndex) {
-                feedback.style.color = 'var(--accent-color)';
-                feedback.textContent = feedbackText;
-                nextButton.style.display = 'block';
-            } else {
-                feedback.style.color = '#dc3545';
-                feedback.textContent = 'Resposta incorreta. Tente lembrar o que diz o caderno e avance para a próxima etapa para continuar aprendendo!';
-                 nextButton.style.display = 'block';
-            }
-        }
-        
-        function showGameOver() {
-            questionArea.style.display = 'none';
-            gameBoard.style.display = 'none';
-            gameOver.innerHTML = '<h2>Parabéns!</h2><p>Você completou o Percurso do PDDE e revisou as etapas mais importantes do programa!</p>';
-        }
-
-        loadQuestion();
-    </script>
-
-</body>
-</html>
+            currentQuestion.options.
